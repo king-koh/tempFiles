@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+
+# python3 export_head_bbox_fp32.py \
+#  --config /Lidar_AI_Solution/CUDA-BEVFusion/bevfusion/configs/nuscenes/det/transfusion/secfpn/camera+lidar/resnet50/convfuser.yaml \
+#  --ckpt   /Lidar_AI_Solution/CUDA-BEVFusion/model/resnet50/bevfusion-det.pth \
+#  --out    /Lidar_AI_Solution/CUDA-BEVFusion/qat/byUsingConfigs/head.bbox.fp32.onnx
+
 import argparse
 import os
 import math
