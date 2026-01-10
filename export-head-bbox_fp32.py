@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-
-# python3 export_head_bbox_fp32.py \
-#  --config /Lidar_AI_Solution/CUDA-BEVFusion/bevfusion/configs/nuscenes/det/transfusion/secfpn/camera+lidar/resnet50/convfuser.yaml \
-#  --ckpt   /Lidar_AI_Solution/CUDA-BEVFusion/model/resnet50/bevfusion-det.pth \
-#  --out    /Lidar_AI_Solution/CUDA-BEVFusion/qat/byUsingConfigs/head.bbox.fp32.onnx
+"""
+python3 export_head_bbox_fp32.py \
+ --config /Lidar_AI_Solution/CUDA-BEVFusion/bevfusion/configs/nuscenes/det/transfusion/secfpn/camera+lidar/resnet50/convfuser.yaml \
+ --ckpt   /Lidar_AI_Solution/CUDA-BEVFusion/model/resnet50/bevfusion-det.pth \
+ --out    /Lidar_AI_Solution/CUDA-BEVFusion/qat/byUsingConfigs/head.bbox.fp32.onnx
+"""
 
 import argparse
 import os
@@ -174,14 +175,13 @@ def infer_middle_hw_from_cfg(cfg: Config) -> Tuple[int, int]:
     W = gy // f
     return H, W
 
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True, help="entry yaml (e.g. convfuser.yaml)")
     ap.add_argument("--ckpt", required=True, help="checkpoint .pth (FP32) e.g. bevfusion-det.pth")
     ap.add_argument("--out", required=True, help="output onnx path e.g. head.bbox.onnx")
     ap.add_argument("--opset", type=int, default=13)
-    ap.add_argument("--device", type=str, default="cuda", choices=["cuda", "cpu"])
+    ap.add_argument("--device", type=str, default="cpu", choices=["cuda", "cpu"])
     args = ap.parse_args()
 
     # --- load full config like ptq.py ---
@@ -240,3 +240,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# 以下で簡素化
+# python3 -m onnxsim /Lidar_AI_Solution/CUDA-BEVFusion/qat/byUsingConfigs/head.bbox.fp32.onnx /Lidar_AI_Solution/CUDA-BEVFusion/qat/byUsingConfigs/head.bbox.fp32.sim.onnx  --overwrite-input-shape "middle:1,512,180,180" 
